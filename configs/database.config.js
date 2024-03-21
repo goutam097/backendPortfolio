@@ -1,26 +1,14 @@
-const { Sequelize } = require("sequelize");
+const mongoose = require("mongoose");
 
-const sequelize = new Sequelize(
-  process.env.DBNAME,
-  process.env.DBUSER,
-  process.env.DBPASSWORD,
-  {
-    host: process.env.DBHOST,
-    dialect: "mysql",
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000,
-    },
-  }
-);
+const conn = async () => {
+  await mongoose
+    .connect(process.env.MONGO_URL)
+    .then(() => {
+      console.log("Connected to MongoDB");
+    })
+    .catch((err) => {
+      console.log("Error connecting to MongoDB", err);
+    });
+};
 
-(async () => {
-  await sequelize.authenticate();
-  console.log("Database Connected Successfully!");
-  await sequelize.sync();
-  console.log("Tables created successfully!");
-})();
-
-module.exports = sequelize;
+module.exports = conn;

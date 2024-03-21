@@ -1,13 +1,14 @@
 const fs = require("fs");
-const imageUpload = (dir, image, imageExt) => {
+const imageUpload = (dir, image, originalName) => {
   let imageName = "";
   try {
-    if (dir && image && imageExt) {
+    if (dir && image && originalName) {
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
       }
+      const imageExt = originalName.split(".")[originalName.split(".").length - 1]
       const imageTitle = Date.now();
-      const path = `${dir}/${imageTitle}.${imageExt}`;
+      const path = `./public/uploads/${dir}/${imageTitle}.${imageExt}`;
       const normalImage = imageTitle + "." + imageExt;
 	    let base64Data = '';
   	  if(image.includes("data:application/pdf;base64,")){
